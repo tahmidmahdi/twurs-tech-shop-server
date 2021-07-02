@@ -19,6 +19,7 @@ const uri = "mongodb+srv://Twurs-Admin:Twurspass123@cluster0.fckrr.mongodb.net/T
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const productsCollection = client.db("Twurs-Tech-Shop").collection("products");
+  const cartCollection = client.db("Twurs-Tech-Shop").collection("cart");
   console.log('databaseConnected')
 
 
@@ -41,11 +42,20 @@ client.connect(err => {
 
   app.get('/getProductData/:data', (req, res) => {
       console.log(req.params.data)
+      //finding product by using unique id
       productsCollection.find({_id : ObjectId(req.params.data)})
       .toArray((err, collections)=> {
         console.log(collections)
         res.send(collections)
       })
+  })
+
+
+
+  app.post('/cartData', (req, res) => {
+    console.log(req.body)
+    cartCollection.insertOne(req.body)
+    .then(console.log(`added successfully`))
   })
 
 
