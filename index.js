@@ -20,6 +20,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const productsCollection = client.db("Twurs-Tech-Shop").collection("products");
   const cartCollection = client.db("Twurs-Tech-Shop").collection("cart");
+  const buyingCollection = client.db("Twurs-Tech-Shop").collection("buy");
   console.log('databaseConnected')
 
 
@@ -29,22 +30,22 @@ client.connect(err => {
     productsCollection.insertOne(req.body)
       .then(console.log('added Successfully'))
   })
-  
+
 
   app.get('/allProducts', (req, res) => {
-      productsCollection.find({})
+    productsCollection.find({})
       .toArray((err, collections) => {
-          res.send(collections)  
+        res.send(collections)
       })
   })
 
 
 
   app.get('/getProductData/:data', (req, res) => {
-      console.log(req.params.data)
-      //finding product by using unique id
-      productsCollection.find({_id : ObjectId(req.params.data)})
-      .toArray((err, collections)=> {
+    console.log(req.params.data)
+    //finding product by using unique id
+    productsCollection.find({ _id: ObjectId(req.params.data) })
+      .toArray((err, collections) => {
         console.log(collections)
         res.send(collections)
       })
@@ -55,9 +56,39 @@ client.connect(err => {
   app.post('/cartData', (req, res) => {
     console.log(req.body)
     cartCollection.insertOne(req.body)
-    .then(console.log(`added successfully`))
+      .then(console.log(`added successfully`))
   })
 
+
+  app.post('/updateData', (req, res) => {
+    console.log(req.body)
+    productsCollection.updateOne(
+      { _id: ObjectId(req.body._id) },
+      {
+        $set: { "quantity": req.body.quantity },
+        $currentDate: { lastModified: true }
+      })
+  })
+
+
+
+  app.get('/cartByEmail/:email', (req, res) => {
+    console.log(req.params.email)
+    cartCollection.find({ email: req.params.email })
+      .toArray((err, collections) => {
+        res.send(collections)
+      })
+
+
+  })
+
+
+
+  app.post('/checkout/buy', (req, res) => {
+      // console.log(req.body)
+      buyingCollection.insertOne(req.body)
+      .then(console.log('added to buying cart'))
+  })
 
 });
 
