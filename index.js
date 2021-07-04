@@ -90,6 +90,14 @@ client.connect(err => {
       .then(console.log('added to buying cart'))
   })
 
+  app.get('/dashboard/:email', (req, res) => {
+    console.log(req.params.email)
+    buyingCollection.find({orderedBy: req.params.email})
+    .toArray((err, collections) => {
+      res.send(collections)
+    })
+  })
+
 });
 
 
