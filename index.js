@@ -21,6 +21,7 @@ client.connect(err => {
   const productsCollection = client.db("Twurs-Tech-Shop").collection("products");
   const cartCollection = client.db("Twurs-Tech-Shop").collection("cart");
   const buyingCollection = client.db("Twurs-Tech-Shop").collection("buy");
+  const adminCollection = client.db("Twurs-Tech-Shop").collection("admin");
   console.log('databaseConnected')
 
 
@@ -85,20 +86,39 @@ client.connect(err => {
 
 
   app.post('/checkout/buy', (req, res) => {
-      console.log(req.body)
-      buyingCollection.insertOne(req.body)
+    console.log(req.body)
+    buyingCollection.insertOne(req.body)
       .then(console.log('added to buying cart'))
   })
 
   app.get('/dashboard/:email', (req, res) => {
     console.log(req.params.email)
-    buyingCollection.find({email: req.params.email})
-    .toArray((err, collections) => {
-      res.send(collections)
-    })
+    buyingCollection.find({ email: req.params.email })
+      .toArray((err, collections) => {
+        res.send(collections)
+      })
   })
 
-});
+  app.post('/makeAnAdmin', (req, res) => {
+    console.log(req.body)
+    adminCollection.insertOne(req.body)
+      .then(console.log('added to admin cart'))
+  })
+
+
+  app.get('/adminList', (req, res) => {
+    adminCollection.find({})
+      .toArray((err, collections) => {
+        res.send(collections)
+      })
+  })
+  
+
+})
+
+
+
+
 
 
 
