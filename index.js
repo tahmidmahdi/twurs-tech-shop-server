@@ -85,14 +85,14 @@ client.connect(err => {
 
 
   app.post('/checkout/buy', (req, res) => {
-      // console.log(req.body)
+      console.log(req.body)
       buyingCollection.insertOne(req.body)
       .then(console.log('added to buying cart'))
   })
 
   app.get('/dashboard/:email', (req, res) => {
     console.log(req.params.email)
-    buyingCollection.find({orderedBy: req.params.email})
+    buyingCollection.find({email: req.params.email})
     .toArray((err, collections) => {
       res.send(collections)
     })
