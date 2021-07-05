@@ -114,6 +114,13 @@ client.connect(err => {
   })
   
 
+  app.post('/deleteProduct', (req, res)=> {
+     console.log(req.body)
+     productsCollection.deleteOne({_id: ObjectId(req.body.id)})
+     .then('deleted Successfully')
+  })
+  
+
 })
 
 
