@@ -32,7 +32,7 @@ client.connect(err => {
       .then(console.log('added Successfully'))
   })
 
-
+  //api to get all the products
   app.get('/allProducts', (req, res) => {
     productsCollection.find({})
       .toArray((err, collections) => {
