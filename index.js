@@ -3,13 +3,15 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const app = express()
 
+
+
 app.use(cors())
 app.use(bodyParser.json())
 const { ObjectId } = require('bson');
 const { MongoClient } = require('mongodb');
 
 
-const port = 4000
+const port = 4000 || process.env.PORT 
 
 
 
@@ -73,7 +75,7 @@ client.connect(err => {
   })
 
 
-
+  // search a user cart product by his email
   app.get('/cartByEmail/:email', (req, res) => {
     console.log(req.params.email)
     cartCollection.find({ email: req.params.email })
