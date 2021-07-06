@@ -41,7 +41,7 @@ client.connect(err => {
   })
 
 
-
+  // this is to show a specific product
   app.get('/getProductData/:data', (req, res) => {
     console.log(req.params.data)
     //finding product by using unique id
