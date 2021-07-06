@@ -53,7 +53,7 @@ client.connect(err => {
   })
 
 
-
+  //to add products to the cart collection 
   app.post('/cartData', (req, res) => {
     console.log(req.body)
     cartCollection.insertOne(req.body)
