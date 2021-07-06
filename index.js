@@ -53,7 +53,7 @@ client.connect(err => {
   })
 
 
-  //to add products to the cart collection 
+  //  to add products to the cart collection 
   app.post('/cartData', (req, res) => {
     console.log(req.body)
     cartCollection.insertOne(req.body)
@@ -61,6 +61,7 @@ client.connect(err => {
   })
 
 
+  //  this api is for updating a products quantity
   app.post('/updateData', (req, res) => {
     console.log(req.body)
     productsCollection.updateOne(
