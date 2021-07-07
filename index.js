@@ -18,7 +18,8 @@ const port =  process.env.PORT || 4000
 
 
 
-const uri = "mongodb+srv://Twurs-Admin:Twurspass123@cluster0.fckrr.mongodb.net/Twurs-Tech-Shop?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.fckrr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const productsCollection = client.db("Twurs-Tech-Shop").collection("products");
