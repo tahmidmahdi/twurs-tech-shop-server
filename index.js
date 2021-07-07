@@ -21,6 +21,9 @@ const port =  process.env.PORT || 4000
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.fckrr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+
 client.connect(err => {
   const productsCollection = client.db("Twurs-Tech-Shop").collection("products");
   const cartCollection = client.db("Twurs-Tech-Shop").collection("cart");
@@ -89,13 +92,15 @@ client.connect(err => {
   })
 
 
-
+  // checkout product from a cart
   app.post('/checkout/buy', (req, res) => {
     console.log(req.body)
     buyingCollection.insertOne(req.body)
       .then(console.log('added to buying cart'))
   })
 
+
+  //  user dashboard products find by email
   app.get('/dashboard/:email', (req, res) => {
     console.log(req.params.email)
     buyingCollection.find({ email: req.params.email })
@@ -104,13 +109,15 @@ client.connect(err => {
       })
   })
 
+
+  //  making an admin by adding a email
   app.post('/makeAnAdmin', (req, res) => {
     console.log(req.body)
     adminCollection.insertOne(req.body)
       .then(console.log('added to admin cart'))
   })
 
-
+ //  this is to get the admin list
   app.get('/adminList', (req, res) => {
     adminCollection.find({})
       .toArray((err, collections) => {
@@ -118,14 +125,14 @@ client.connect(err => {
       })
   })
   
-
+  // this route is for delete a product, only admin can delete
   app.post('/deleteProduct', (req, res)=> {
      console.log(req.body)
      productsCollection.deleteOne({_id: ObjectId(req.body.id)})
      .then('deleted Successfully')
   })
 
-
+  // to edit a product by an admin
   app.post('/editProduct', (req, res) => {
 
     console.log(req.body)
@@ -150,7 +157,7 @@ client.connect(err => {
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello This Is Twurs Tech Shop!')
 })
 
 
