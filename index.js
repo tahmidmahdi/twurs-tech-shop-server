@@ -123,6 +123,20 @@ client.connect(err => {
      productsCollection.deleteOne({_id: ObjectId(req.body.id)})
      .then('deleted Successfully')
   })
+
+
+  app.post('/editProduct', (req, res) => {
+
+    console.log(req.body)
+
+    productsCollection.updateOne(
+      { _id: ObjectId(req.body._id) },
+      {
+        $set: { "quantity": req.body.quantity },
+        $currentDate: { lastModified: true }
+      })
+    
+  })
   
 
 })
